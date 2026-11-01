@@ -1,5 +1,5 @@
 // [LAYOUT ARCHETYPE]: Local Services Directory & Business Grid
-// [RADIUS & BORDERS]: rounded (4px) containers, rounded-sm (2px) filter buttons/inputs, border border-zinc-200
+// [RADIUS & BORDERS]: rounded-2xl (4px) containers, rounded-xl (2px) filter buttons/inputs, border border-zinc-100
 // [ACCENT LOGIC]: #2563EB (Royal Blue)
 
 import React from 'react';
@@ -39,37 +39,37 @@ export const ResolveSection: React.FC<ResolveSectionProps> = ({
   return (
     <div className="space-y-3.5 pb-6 animate-fade-in">
       {/* Top Banner Box */}
-      <div className="bg-white border border-zinc-200 rounded p-3.5 space-y-2.5 shadow-sm">
+      <div className="bg-white border border-zinc-100 rounded-2xl p-3.5 space-y-2.5 ">
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 block font-mono">
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-600 block ">
               RESOLVE SOBRADINHO
             </span>
-            <h2 className="text-sm font-bold text-zinc-900 leading-tight">
+            <h2 className="text-[15px] font-bold text-zinc-900 leading-tight">
               Serviços & Negócios Locais
             </h2>
-            <p className="text-[11px] text-zinc-500">
+            <p className="text-[13px] text-zinc-500">
               Encontre profissionais ou anuncie o que você faz na cidade
             </p>
           </div>
           <button
             onClick={onOpenNewServiceModal}
-            className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-sm shadow-sm transition-all flex items-center gap-1 uppercase tracking-wider shrink-0"
+            className="px-3 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-all flex items-center gap-1 uppercase tracking-wider shrink-0"
           >
-            <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+            <Plus className="w-5 h-5 stroke-[2.5]" />
             <span>Anunciar</span>
           </button>
         </div>
 
         {/* Search Bar */}
         <div className="relative">
-          <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-5 h-5 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Buscar por eletricista, faxina, marceneiro..."
-            className="w-full bg-zinc-50 border border-zinc-200 rounded-sm pl-8 pr-3 py-1.5 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-blue-600 font-sans"
+            className="w-full bg-zinc-50 border border-zinc-100 rounded-xl pl-8 pr-3 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-blue-600 font-sans"
           />
         </div>
 
@@ -81,10 +81,10 @@ export const ResolveSection: React.FC<ResolveSectionProps> = ({
               <button
                 key={cat.key}
                 onClick={() => onSelectCategory(cat.key)}
-                className={`px-3 py-1 text-xs font-semibold rounded-sm whitespace-nowrap transition-colors ${
+                className={`px-3 py-2 text-sm font-semibold rounded-xl whitespace-nowrap transition-colors ${
                   isActive
                     ? 'bg-zinc-900 text-white font-bold'
-                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 border border-zinc-200'
+                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 border border-zinc-100'
                 }`}
               >
                 {cat.label}
@@ -95,8 +95,8 @@ export const ResolveSection: React.FC<ResolveSectionProps> = ({
       </div>
 
       {/* Services Count and Refresh */}
-      <div className="flex items-center justify-between text-xs text-zinc-600 px-0.5">
-        <span className="font-mono text-[11px] text-zinc-500">
+      <div className="flex items-center justify-between text-sm text-zinc-600 px-0.5">
+        <span className=" text-[13px] text-zinc-500">
           {services.length} {services.length === 1 ? 'profissional ativo' : 'profissionais ativos'}
         </span>
 
@@ -105,20 +105,20 @@ export const ResolveSection: React.FC<ResolveSectionProps> = ({
             onSelectCategory('todos');
             onSearchChange('');
           }}
-          className="text-[11px] font-semibold text-zinc-500 hover:text-zinc-900 flex items-center gap-1"
+          className="text-[13px] font-semibold text-zinc-500 hover:text-zinc-900 flex items-center gap-1"
           title="Redefinir filtros"
         >
-          <RefreshCw className="w-3 h-3" />
+          <RefreshCw className="w-4 h-4" />
           <span>Ver todos</span>
         </button>
       </div>
 
       {/* Services Stream */}
       {services.length === 0 ? (
-        <div className="p-8 text-center border border-dashed border-zinc-300 rounded-sm bg-white space-y-2">
-          <Wrench className="w-8 h-8 mx-auto text-zinc-400 stroke-[1.5]" />
-          <h4 className="text-xs font-bold text-zinc-800">Nenhum profissional encontrado</h4>
-          <p className="text-[11px] text-zinc-500">
+        <div className="p-8 text-center border border-dashed border-zinc-300 rounded-xl bg-white space-y-2">
+          <Wrench className="w-11 h-11 mx-auto text-zinc-400 stroke-[1.5]" />
+          <h4 className="text-sm font-bold text-zinc-800">Nenhum profissional encontrado</h4>
+          <p className="text-[13px] text-zinc-500">
             Tente outro termo ou limpe os filtros para ver toda a lista da cidade.
           </p>
         </div>

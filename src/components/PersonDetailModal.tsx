@@ -28,20 +28,20 @@ export const PersonDetailModal: React.FC<PersonDetailModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
       <div className="w-full max-w-sm bg-white rounded-3xl p-5 sm:p-6 shadow-2xl space-y-4 text-left">
         <div className="flex justify-between items-center border-b border-slate-100 pb-2">
-          <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">
+          <span className="text-sm font-bold text-blue-600 uppercase tracking-wider">
             PERFIL DA COMUNIDADE
           </span>
           <button
             onClick={onClose}
-            className="w-7 h-7 rounded-full bg-slate-100 text-slate-400 hover:text-slate-600 flex items-center justify-center"
+            className="w-10 h-12 rounded-full bg-slate-100 text-slate-400 hover:text-slate-600 flex items-center justify-center"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Person Header */}
         <div className="flex items-center gap-3.5">
-          <div className="w-16 h-16 rounded-full overflow-hidden bg-blue-100 shrink-0 border-2 border-blue-500 shadow-sm">
+          <div className="w-16 h-16 rounded-full overflow-hidden bg-blue-100 shrink-0 border-2 border-blue-500 ">
             {person.avatarUrl ? (
               <img src={person.avatarUrl} alt={person.name} className="w-full h-full object-cover" />
             ) : (
@@ -57,23 +57,23 @@ export const PersonDetailModal: React.FC<PersonDetailModalProps> = ({
                 {person.name}
               </h3>
               {person.badge && (
-                <span className="text-[10px] bg-blue-50 text-blue-700 font-bold px-2 py-0.2 rounded-full border border-blue-200">
+                <span className="text-xs bg-blue-50 text-blue-700 font-bold px-2 py-0.2 rounded-full border border-blue-200">
                   {person.badge}
                 </span>
               )}
             </div>
-            <span className="text-xs text-slate-500 font-medium block mt-0.5">
+            <span className="text-sm text-slate-500 font-medium block mt-0.5">
               @{person.handle}
             </span>
-            <div className="flex items-center gap-1 text-xs text-slate-400 mt-0.5">
-              <MapPin className="w-3 h-3 text-slate-400" />
+            <div className="flex items-center gap-1 text-sm text-slate-400 mt-0.5">
+              <MapPin className="w-4 h-4 text-slate-400" />
               <span>{person.neighborhood}</span>
             </div>
           </div>
         </div>
 
         {/* Talents and Bio */}
-        <div className="space-y-2 bg-slate-50 p-3.5 rounded-2xl border border-slate-100 text-xs text-slate-700 font-sans">
+        <div className="space-y-2 bg-slate-50 p-3.5 rounded-2xl border border-slate-100 text-sm text-slate-700 font-sans">
           <div>
             <strong className="text-slate-900 block font-bold">O que faz / Talentos:</strong>
             <p className="text-slate-600 mt-0.5">{person.talents}</p>
@@ -89,15 +89,15 @@ export const PersonDetailModal: React.FC<PersonDetailModalProps> = ({
         <div className="pt-2 space-y-2">
           <button
             onClick={handleOpenWhatsApp}
-            className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-full shadow-sm hover:shadow transition-all flex items-center justify-center gap-2"
+            className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-full hover:shadow transition-all flex items-center justify-center gap-2"
           >
-            <Phone className="w-4 h-4" />
+            <Phone className="w-5 h-5" />
             <span>Chamar no WhatsApp</span>
           </button>
 
           <button
             onClick={onClose}
-            className="w-full py-2.5 rounded-full border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-colors"
+            className="w-full py-2.5 rounded-full border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors"
           >
             Fechar
           </button>

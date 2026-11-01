@@ -1,9 +1,8 @@
-// [LAYOUT ARCHETYPE]: Bottom Fixed Swiss Toolbar with 4 Core Destinations + Action Button
-// [RADIUS & BORDERS]: rounded (4px) central action, rounded-sm (2px) indicators, border-t border-zinc-200
-// [ACCENT LOGIC]: #2563EB (Royal Blue)
+// [LAYOUT]: Barra inferior estilo app nativo: 5 ícones grandes, sem texto, aba ativa preenchida.
+// [ACCENT]: #2563EB (azul)
 
 import React from 'react';
-import { Newspaper, Wrench, Plus, Tag, User } from 'lucide-react';
+import { Home, Wrench, Plus, Tag, User } from 'lucide-react';
 import type { MainTab } from '../types/community';
 import { useHaptics } from '../hooks/useHaptics';
 
@@ -13,11 +12,7 @@ interface BottomNavigationProps {
   onOpenComposer: () => void;
 }
 
-export const BottomNavigation: React.FC<BottomNavigationProps> = ({
-  activeTab,
-  onChangeTab,
-  onOpenComposer,
-}) => {
+export const BottomNavigation: React.FC<BottomNavigationProps> = ({ activeTab, onChangeTab, onOpenComposer }) => {
   const { triggerHaptic } = useHaptics();
 
   const handleTabClick = (tab: MainTab) => {
@@ -30,72 +25,48 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
     onOpenComposer();
   };
 
-  const isFeedActive = activeTab === 'feed' || activeTab === 'inicio';
-  const isServicesActive = activeTab === 'servicos' || activeTab === 'resolve';
-  const isClassifiedsActive = activeTab === 'classificados';
-  const isProfileActive = activeTab === 'perfil';
+  const items = [
+    { tab: 'feed' as MainTab, label: 'Início', Icon: Home, active: activeTab === 'feed' || activeTab === 'inicio' },
+    { tab: 'servicos' as MainTab, label: 'Serviços', Icon: Wrench, active: activeTab === 'servicos' || activeTab === 'resolve' },
+    { tab: 'classificados' as MainTab, label: 'Classificados', Icon: Tag, active: activeTab === 'classificados' },
+    { tab: 'perfil' as MainTab, label: 'Perfil', Icon: User, active: activeTab === 'perfil' },
+  ];
+
+  const renderItem = ({ tab, label, Icon, active }: (typeof items)[number]) => (
+    <button
+      key={tab}
+      onClick={() => handleTabClick(tab)}
+      aria-label={label}
+      aria-current={active ? 'page' : undefined}
+      className="flex-1 h-14 flex items-center justify-center active:scale-90 transition-transform"
+    >
+      <Icon
+        className={`w-7 h-7 ${active ? 'text-zinc-900 fill-zinc-900' : 'text-zinc-400'}`}
+        strokeWidth={active ? 2.2 : 1.8}
+      />
+    </button>
+  );
 
   return (
-    <nav className="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-zinc-200 h-13 sm:h-14 flex items-center justify-between px-2 max-w-md mx-auto shadow-sm select-none">
-      {/* 1. Feed */}
-      <button
-        onClick={() => handleTabClick('feed')}
-        className={`flex-1 min-h-[44px] flex flex-col items-center justify-center transition-colors ${
-          isFeedActive ? 'text-blue-600 font-bold' : 'text-zinc-500 hover:text-zinc-900'
-        }`}
-        title="Feed Comunitário"
-      >
-        <Newspaper className={`w-4 h-4 mb-0.5 ${isFeedActive ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
-        <span className="text-[10px] font-medium leading-none">Feed</span>
-      </button>
+    <nav
+      className="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-zinc-200 max-w-md mx-auto select-none"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+    >
+      <div className="flex items-center h-14">
+        {items.slice(0, 2).map(renderItem)}
 
-      {/* 2. Serviços */}
-      <button
-        onClick={() => handleTabClick('servicos')}
-        className={`flex-1 min-h-[44px] flex flex-col items-center justify-center transition-colors ${
-          isServicesActive ? 'text-blue-600 font-bold' : 'text-zinc-500 hover:text-zinc-900'
-        }`}
-        title="Serviços & Negócios Locais"
-      >
-        <Wrench className={`w-4 h-4 mb-0.5 ${isServicesActive ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
-        <span className="text-[10px] font-medium leading-none">Serviços</span>
-      </button>
+        <button
+          onClick={handleComposeClick}
+          aria-label="Publicar"
+          className="flex-1 h-14 flex items-center justify-center active:scale-90 transition-transform"
+        >
+          <span className="w-12 h-10 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-600/30">
+            <Plus className="w-6 h-6" strokeWidth={2.8} />
+          </span>
+        </button>
 
-      {/* 3. Center Quick Action [+] */}
-      <button
-        onClick={handleComposeClick}
-        className="flex flex-col items-center justify-center px-1 group active:scale-95 transition-transform"
-        title="Publicar foto ou relato estilo Instagram"
-      >
-        <div className="w-8 h-8 rounded bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow transition-colors">
-          <Plus className="w-4 h-4 stroke-[2.8]" />
-        </div>
-        <span className="text-[8.5px] font-mono font-bold text-blue-600 mt-0.5">Postar</span>
-      </button>
-
-      {/* 4. Classificados */}
-      <button
-        onClick={() => handleTabClick('classificados')}
-        className={`flex-1 min-h-[44px] flex flex-col items-center justify-center transition-colors ${
-          isClassifiedsActive ? 'text-blue-600 font-bold' : 'text-zinc-500 hover:text-zinc-900'
-        }`}
-        title="Classificados & Desapego"
-      >
-        <Tag className={`w-4 h-4 mb-0.5 ${isClassifiedsActive ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
-        <span className="text-[10px] font-medium leading-none">Classificados</span>
-      </button>
-
-      {/* 5. Perfil */}
-      <button
-        onClick={() => handleTabClick('perfil')}
-        className={`flex-1 min-h-[44px] flex flex-col items-center justify-center transition-colors ${
-          isProfileActive ? 'text-blue-600 font-bold' : 'text-zinc-500 hover:text-zinc-900'
-        }`}
-        title="Perfil & Classificação"
-      >
-        <User className={`w-4 h-4 mb-0.5 ${isProfileActive ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
-        <span className="text-[10px] font-medium leading-none">Perfil</span>
-      </button>
+        {items.slice(2).map(renderItem)}
+      </div>
     </nav>
   );
 };

@@ -15,20 +15,19 @@ export const Skeleton: React.FC<SkeletonProps> = ({ className = '' }) => {
 
 export const PostCardSkeleton: React.FC = () => {
   return (
-    <div className="bg-white border border-slate-100 rounded-3xl p-5 shadow-sm space-y-3.5">
-      <div className="flex items-center gap-3">
+    <div className="bg-white" aria-hidden="true">
+      <div className="flex items-center gap-3 px-4 py-3">
         <Skeleton className="w-10 h-10 rounded-full" />
         <div className="space-y-1.5 flex-1">
           <Skeleton className="w-28 h-3.5" />
           <Skeleton className="w-20 h-2.5" />
         </div>
       </div>
-      <Skeleton className="w-full h-48 rounded-2xl" />
-      <div className="flex gap-4 pt-1">
-        <Skeleton className="w-16 h-4 rounded-full" />
-        <Skeleton className="w-16 h-4 rounded-full" />
+      <Skeleton className="w-full aspect-[4/5] rounded-none" />
+      <div className="px-4 py-3 space-y-2">
+        <Skeleton className="w-24 h-4" />
+        <Skeleton className="w-3/4 h-3.5" />
       </div>
-      <Skeleton className="w-3/4 h-3.5" />
     </div>
   );
 };

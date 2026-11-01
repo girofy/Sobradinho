@@ -1,5 +1,5 @@
 // [LAYOUT ARCHETYPE]: Instagram Single-Stage Media Composer
-// [RADIUS & BORDERS]: rounded (4px) containers, rounded-sm (2px) inputs, border border-zinc-200
+// [RADIUS & BORDERS]: rounded-2xl (4px) containers, rounded-xl (2px) inputs, border border-zinc-100
 // [ACCENT LOGIC]: #2563EB (Royal Blue)
 
 import React, { useState, useRef } from 'react';
@@ -96,37 +96,37 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/60 backdrop-blur-none animate-fade-in">
-      <div className="w-full max-w-md bg-white rounded border border-zinc-300 shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-none animate-fade-in">
+      <div className="w-full max-w-md bg-white rounded-2xl border border-zinc-300 shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
         {/* Instagram-style Top Header */}
-        <div className="h-12 border-b border-zinc-200 px-3.5 flex items-center justify-between bg-zinc-50">
+        <div className="h-12 border-b border-zinc-100 px-3.5 flex items-center justify-between bg-zinc-50">
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 text-zinc-600 hover:text-black rounded-sm transition-colors"
+            className="p-1.5 text-zinc-600 hover:text-black rounded-xl transition-colors"
             title="Cancelar"
           >
             <X className="w-5 h-5" />
           </button>
-          <span className="text-sm font-bold text-zinc-900 tracking-tight">Nova publicação</span>
+          <span className="text-[15px] font-bold text-zinc-900 tracking-tight">Nova publicação</span>
           <button
             type="button"
             onClick={() => handleSubmit()}
-            className="text-xs font-bold text-blue-600 hover:text-blue-700 px-3 py-1.5 rounded-sm hover:bg-blue-50 transition-colors uppercase tracking-wider"
+            className="text-sm font-bold text-blue-600 hover:text-blue-700 px-3 py-2.5 rounded-xl hover:bg-blue-50 transition-colors uppercase tracking-wider"
           >
             Compartilhar
           </button>
         </div>
 
         {error && (
-          <div className="p-2.5 bg-red-50 text-red-600 text-xs border-b border-red-200 font-medium">
+          <div className="p-3.5 bg-red-50 text-red-600 text-sm border-b border-red-200 font-medium">
             {error}
           </div>
         )}
 
         <div className="overflow-y-auto flex-1 p-3.5 space-y-3.5">
           {/* Media Stage: Instagram Style */}
-          <div className="border border-zinc-200 rounded-sm bg-zinc-100 overflow-hidden relative">
+          <div className="border border-zinc-100 rounded-xl bg-zinc-100 overflow-hidden relative">
             {imageUrl ? (
               <div className="relative aspect-square sm:aspect-[4/3] bg-black flex items-center justify-center">
                 <img
@@ -137,28 +137,28 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setImageUrl('')}
-                  className="absolute top-2 right-2 bg-black/70 hover:bg-black text-white p-1.5 rounded-sm transition-colors"
+                  className="absolute top-2 right-2 bg-black/70 hover:bg-black text-white p-1.5 rounded-xl transition-colors"
                   title="Remover foto"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <Trash2 className="w-5 h-5" />
                 </button>
               </div>
             ) : (
               <div className="p-6 text-center space-y-3">
-                <div className="w-12 h-12 mx-auto bg-white border border-zinc-300 rounded-sm flex items-center justify-center text-zinc-500">
+                <div className="w-12 h-12 mx-auto bg-white border border-zinc-300 rounded-xl flex items-center justify-center text-zinc-500">
                   <Camera className="w-6 h-6 stroke-[1.5]" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-zinc-800">Selecione uma foto da cidade</p>
-                  <p className="text-[11px] text-zinc-500">Envie do seu celular ou escolha um ponto turístico</p>
+                  <p className="text-sm font-semibold text-zinc-800">Selecione uma foto da cidade</p>
+                  <p className="text-[13px] text-zinc-500">Envie do seu celular ou escolha um ponto turístico</p>
                 </div>
                 <div className="flex items-center justify-center gap-2 pt-1">
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="px-3.5 py-1.5 bg-zinc-900 hover:bg-black text-white text-xs font-semibold rounded-sm transition-colors flex items-center gap-1.5"
+                    className="px-3.5 py-2.5 bg-zinc-900 hover:bg-black text-white text-sm font-semibold rounded-xl transition-colors flex items-center gap-1.5"
                   >
-                    <ImageIcon className="w-3.5 h-3.5" />
+                    <ImageIcon className="w-5 h-5" />
                     <span>Galeria / Câmera</span>
                   </button>
                   <input
@@ -172,7 +172,7 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
 
                 {/* Instant Preset Captures */}
                 <div className="pt-2 border-t border-zinc-200/80">
-                  <span className="text-[10px] uppercase font-bold text-zinc-400 tracking-wider block mb-1.5">
+                  <span className="text-xs uppercase font-bold text-zinc-400 tracking-wider block mb-1.5">
                     Fotos rápidas de Sobradinho
                   </span>
                   <div className="flex flex-wrap justify-center gap-1">
@@ -181,7 +181,7 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
                         key={qp.label}
                         type="button"
                         onClick={() => setImageUrl(qp.url)}
-                        className="px-2 py-1 text-[11px] font-medium bg-white border border-zinc-300 text-zinc-700 hover:border-blue-600 rounded-sm transition-colors"
+                        className="px-2 py-2 text-[13px] font-medium bg-white border border-zinc-300 text-zinc-700 hover:border-blue-600 rounded-xl transition-colors"
                       >
                         {qp.label}
                       </button>
@@ -194,14 +194,14 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
 
           {/* Caption Area */}
           <div className="space-y-1.5">
-            <div className="flex items-center justify-between text-xs text-zinc-500">
+            <div className="flex items-center justify-between text-sm text-zinc-500">
               <span className="font-semibold text-zinc-800 flex items-center gap-1.5">
-                <span className="w-5 h-5 rounded-sm bg-blue-600 text-white font-bold text-[10px] flex items-center justify-center">
+                <span className="w-5 h-5 rounded-xl bg-blue-600 text-white font-bold text-xs flex items-center justify-center">
                   {defaultAuthorName.charAt(0).toUpperCase() || 'C'}
                 </span>
                 <span>{defaultAuthorName || 'Cidadão'}</span>
               </span>
-              <span className="font-mono text-[11px]">{content.length}/500</span>
+              <span className=" text-[13px]">{content.length}/500</span>
             </div>
             <textarea
               rows={3}
@@ -209,29 +209,29 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
               onChange={(e) => setContent(e.target.value)}
               maxLength={500}
               placeholder="Escreva uma legenda... use #sobradinho"
-              className="w-full bg-zinc-50 border border-zinc-200 rounded-sm p-2.5 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600 resize-none font-sans"
+              className="w-full bg-zinc-50 border border-zinc-100 rounded-xl p-3.5 text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600 resize-none font-sans"
             />
           </div>
 
           {/* Neighborhood Location Tag */}
-          <div className="border border-zinc-200 rounded-sm p-2.5 bg-zinc-50 space-y-2">
+          <div className="border border-zinc-100 rounded-xl p-3.5 bg-zinc-50 space-y-2">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5 text-xs text-zinc-700">
-                <MapPin className="w-3.5 h-3.5 text-blue-600" />
+              <div className="flex items-center gap-1.5 text-sm text-zinc-700">
+                <MapPin className="w-5 h-5 text-blue-600" />
                 <span className="font-semibold">Localização:</span>
                 <span className="font-medium text-zinc-900">{neighborhood}</span>
               </div>
               <button
                 type="button"
                 onClick={() => setShowLocationPicker(!showLocationPicker)}
-                className="text-[11px] font-bold text-blue-600 hover:text-blue-700"
+                className="text-[13px] font-bold text-blue-600 hover:text-blue-700"
               >
                 {showLocationPicker ? 'Fechar' : 'Alterar'}
               </button>
             </div>
 
             {showLocationPicker && (
-              <div className="pt-2 border-t border-zinc-200 grid grid-cols-2 gap-1 max-h-36 overflow-y-auto">
+              <div className="pt-2 border-t border-zinc-100 grid grid-cols-2 gap-1 max-h-36 overflow-y-auto">
                 {NEIGHBORHOODS.map((n) => (
                   <button
                     key={n}
@@ -240,14 +240,14 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
                       setNeighborhood(n);
                       setShowLocationPicker(false);
                     }}
-                    className={`text-left px-2 py-1 text-[11px] rounded-sm transition-colors flex items-center justify-between ${
+                    className={`text-left px-2 py-2 text-[13px] rounded-xl transition-colors flex items-center justify-between ${
                       neighborhood === n
                         ? 'bg-blue-600 text-white font-semibold'
-                        : 'bg-white border border-zinc-200 text-zinc-700 hover:bg-zinc-100'
+                        : 'bg-white border border-zinc-100 text-zinc-700 hover:bg-zinc-100'
                     }`}
                   >
                     <span className="truncate">{n}</span>
-                    {neighborhood === n && <Check className="w-3 h-3 shrink-0" />}
+                    {neighborhood === n && <Check className="w-4 h-4 shrink-0" />}
                   </button>
                 ))}
               </div>
@@ -256,18 +256,18 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
         </div>
 
         {/* Bottom Bar Action */}
-        <div className="p-3 border-t border-zinc-200 bg-white flex items-center justify-between">
+        <div className="p-4 border-t border-zinc-100 bg-white flex items-center justify-between">
           <button
             type="button"
             onClick={onClose}
-            className="px-3 py-1.5 text-xs font-semibold text-zinc-600 hover:text-zinc-900 rounded-sm transition-colors"
+            className="px-3 py-2.5 text-sm font-semibold text-zinc-600 hover:text-zinc-900 rounded-xl transition-colors"
           >
             Descartar
           </button>
           <button
             type="button"
             onClick={() => handleSubmit()}
-            className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-sm shadow-sm transition-all uppercase tracking-wider"
+            className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-all uppercase tracking-wider"
           >
             Publicar agora
           </button>

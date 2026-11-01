@@ -1,5 +1,5 @@
 // [LAYOUT ARCHETYPE]: Classifieds Marketplace Ad Composer
-// [RADIUS & BORDERS]: rounded (4px) modal container, rounded-sm (2px) inputs/buttons, border border-zinc-200
+// [RADIUS & BORDERS]: rounded-2xl (4px) modal container, rounded-xl (2px) inputs/buttons, border border-zinc-100
 // [ACCENT LOGIC]: #2563EB (Royal Blue) & #059669 (Emerald Green for WhatsApp/Prices)
 
 import React, { useState, useRef } from 'react';
@@ -110,18 +110,18 @@ export const NewClassifiedModal: React.FC<NewClassifiedModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/60 backdrop-blur-none animate-fade-in">
-      <div className="w-full max-w-md bg-white rounded border border-zinc-300 shadow-xl overflow-hidden flex flex-col max-h-[92vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-none animate-fade-in">
+      <div className="w-full max-w-md bg-white rounded-2xl border border-zinc-300 shadow-xl overflow-hidden flex flex-col max-h-[92vh]">
         {/* Header */}
-        <div className="h-12 border-b border-zinc-200 px-3.5 flex items-center justify-between bg-zinc-50">
+        <div className="h-12 border-b border-zinc-100 px-3.5 flex items-center justify-between bg-zinc-50">
           <div className="flex items-center gap-2">
-            <Tag className="w-4 h-4 text-blue-600" />
-            <span className="text-sm font-bold text-zinc-900 tracking-tight">Criar Anúncio no Classificados</span>
+            <Tag className="w-5 h-5 text-blue-600" />
+            <span className="text-[15px] font-bold text-zinc-900 tracking-tight">Criar Anúncio no Classificados</span>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 text-zinc-500 hover:text-black rounded-sm transition-colors"
+            className="p-1.5 text-zinc-500 hover:text-black rounded-xl transition-colors"
             title="Fechar"
           >
             <X className="w-5 h-5" />
@@ -129,7 +129,7 @@ export const NewClassifiedModal: React.FC<NewClassifiedModalProps> = ({
         </div>
 
         {error && (
-          <div className="p-2.5 bg-red-50 text-red-600 text-xs border-b border-red-200 font-medium">
+          <div className="p-3.5 bg-red-50 text-red-600 text-sm border-b border-red-200 font-medium">
             {error}
           </div>
         )}
@@ -137,7 +137,7 @@ export const NewClassifiedModal: React.FC<NewClassifiedModalProps> = ({
         {/* Scrollable Form Body */}
         <div className="overflow-y-auto flex-1 p-3.5 space-y-3">
           {/* Photo Stage */}
-          <div className="border border-zinc-200 rounded-sm bg-zinc-100 overflow-hidden relative">
+          <div className="border border-zinc-100 rounded-xl bg-zinc-100 overflow-hidden relative">
             {imageUrl ? (
               <div className="relative aspect-[16/9] bg-black flex items-center justify-center">
                 <img
@@ -148,25 +148,25 @@ export const NewClassifiedModal: React.FC<NewClassifiedModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setImageUrl('')}
-                  className="absolute top-2 right-2 bg-black/70 hover:bg-black text-white p-1.5 rounded-sm transition-colors"
+                  className="absolute top-2 right-2 bg-black/70 hover:bg-black text-white p-1.5 rounded-xl transition-colors"
                   title="Remover foto"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <Trash2 className="w-5 h-5" />
                 </button>
               </div>
             ) : (
               <div className="p-4 text-center space-y-2">
-                <div className="w-10 h-10 mx-auto bg-white border border-zinc-300 rounded-sm flex items-center justify-center text-zinc-500">
+                <div className="w-10 h-12 mx-auto bg-white border border-zinc-300 rounded-xl flex items-center justify-center text-zinc-500">
                   <Camera className="w-5 h-5 stroke-[1.5]" />
                 </div>
-                <p className="text-xs font-semibold text-zinc-800">Foto do produto ou anúncio</p>
+                <p className="text-sm font-semibold text-zinc-800">Foto do produto ou anúncio</p>
                 <div className="flex justify-center gap-2">
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="px-3 py-1 bg-zinc-900 hover:bg-black text-white text-xs font-semibold rounded-sm transition-colors flex items-center gap-1.5"
+                    className="px-3 py-2 bg-zinc-900 hover:bg-black text-white text-sm font-semibold rounded-xl transition-colors flex items-center gap-1.5"
                   >
-                    <ImageIcon className="w-3.5 h-3.5" />
+                    <ImageIcon className="w-5 h-5" />
                     <span>Escolher foto</span>
                   </button>
                   <input
@@ -180,7 +180,7 @@ export const NewClassifiedModal: React.FC<NewClassifiedModalProps> = ({
 
                 {/* Instant Presets */}
                 <div className="pt-2 border-t border-zinc-200/80">
-                  <span className="text-[10px] uppercase font-bold text-zinc-400 block mb-1">
+                  <span className="text-xs uppercase font-bold text-zinc-400 block mb-1">
                     Fotos de exemplo rápido
                   </span>
                   <div className="flex flex-wrap justify-center gap-1">
@@ -189,7 +189,7 @@ export const NewClassifiedModal: React.FC<NewClassifiedModalProps> = ({
                         key={p.label}
                         type="button"
                         onClick={() => setImageUrl(p.url)}
-                        className="px-2 py-0.5 text-[10px] font-medium bg-white border border-zinc-300 text-zinc-700 hover:border-blue-600 rounded-sm"
+                        className="px-2 py-0.5 text-xs font-medium bg-white border border-zinc-300 text-zinc-700 hover:border-blue-600 rounded-xl"
                       >
                         {p.label}
                       </button>
@@ -203,23 +203,23 @@ export const NewClassifiedModal: React.FC<NewClassifiedModalProps> = ({
           {/* Title & Price Row */}
           <div className="grid grid-cols-3 gap-2">
             <div className="col-span-2">
-              <label className="block text-[11px] font-semibold text-zinc-700 mb-0.5">Título do item</label>
+              <label className="block text-[13px] font-semibold text-zinc-700 mb-0.5">Título do item</label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Ex: Bicicleta Caloi Aro 29"
-                className="w-full bg-zinc-50 border border-zinc-200 rounded-sm px-2.5 py-1.5 text-xs text-zinc-900 focus:outline-none focus:ring-1 focus:ring-blue-600 font-sans"
+                className="w-full bg-zinc-50 border border-zinc-100 rounded-xl px-3.5 py-2.5 text-sm text-zinc-900 focus:outline-none focus:ring-1 focus:ring-blue-600 font-sans"
               />
             </div>
             <div>
-              <label className="block text-[11px] font-semibold text-zinc-700 mb-0.5">Valor (R$)</label>
+              <label className="block text-[13px] font-semibold text-zinc-700 mb-0.5">Valor (R$)</label>
               <input
                 type="text"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 placeholder="Ex: 450"
-                className="w-full bg-zinc-50 border border-zinc-200 rounded-sm px-2.5 py-1.5 text-xs text-zinc-900 focus:outline-none focus:ring-1 focus:ring-blue-600 font-mono"
+                className="w-full bg-zinc-50 border border-zinc-100 rounded-xl px-3.5 py-2.5 text-sm text-zinc-900 focus:outline-none focus:ring-1 focus:ring-blue-600 "
               />
             </div>
           </div>
@@ -227,11 +227,11 @@ export const NewClassifiedModal: React.FC<NewClassifiedModalProps> = ({
           {/* Category & Neighborhood Row */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="block text-[11px] font-semibold text-zinc-700 mb-0.5">Categoria</label>
+              <label className="block text-[13px] font-semibold text-zinc-700 mb-0.5">Categoria</label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as any)}
-                className="w-full bg-zinc-50 border border-zinc-200 rounded-sm px-2 py-1.5 text-xs text-zinc-900 focus:outline-none focus:ring-1 focus:ring-blue-600 font-sans"
+                className="w-full bg-zinc-50 border border-zinc-100 rounded-xl px-2 py-2.5 text-sm text-zinc-900 focus:outline-none focus:ring-1 focus:ring-blue-600 font-sans"
               >
                 <option value="desapego">Desapego / Usados</option>
                 <option value="imoveis">Imóveis / Aluguel</option>
@@ -241,11 +241,11 @@ export const NewClassifiedModal: React.FC<NewClassifiedModalProps> = ({
               </select>
             </div>
             <div>
-              <label className="block text-[11px] font-semibold text-zinc-700 mb-0.5">Bairro / Quadra</label>
+              <label className="block text-[13px] font-semibold text-zinc-700 mb-0.5">Bairro / Quadra</label>
               <select
                 value={neighborhood}
                 onChange={(e) => setNeighborhood(e.target.value)}
-                className="w-full bg-zinc-50 border border-zinc-200 rounded-sm px-2 py-1.5 text-xs text-zinc-900 focus:outline-none focus:ring-1 focus:ring-blue-600 font-sans"
+                className="w-full bg-zinc-50 border border-zinc-100 rounded-xl px-2 py-2.5 text-sm text-zinc-900 focus:outline-none focus:ring-1 focus:ring-blue-600 font-sans"
               >
                 {NEIGHBORHOODS.map((n) => (
                   <option key={n} value={n}>
@@ -258,20 +258,20 @@ export const NewClassifiedModal: React.FC<NewClassifiedModalProps> = ({
 
           {/* Description */}
           <div>
-            <label className="block text-[11px] font-semibold text-zinc-700 mb-0.5">Descrição e detalhes</label>
+            <label className="block text-[13px] font-semibold text-zinc-700 mb-0.5">Descrição e detalhes</label>
             <textarea
               rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Descreva o estado do item, forma de retirada ou entrega..."
-              className="w-full bg-zinc-50 border border-zinc-200 rounded-sm p-2 text-xs text-zinc-900 focus:outline-none focus:ring-1 focus:ring-blue-600 resize-none font-sans"
+              className="w-full bg-zinc-50 border border-zinc-100 rounded-xl p-3 text-sm text-zinc-900 focus:outline-none focus:ring-1 focus:ring-blue-600 resize-none font-sans"
             />
           </div>
 
           {/* WhatsApp Contact */}
           <div>
-            <label className="block text-[11px] font-semibold text-zinc-700 mb-0.5 flex items-center gap-1">
-              <Phone className="w-3 h-3 text-emerald-600" />
+            <label className="block text-[13px] font-semibold text-zinc-700 mb-0.5 flex items-center gap-1">
+              <Phone className="w-4 h-4 text-emerald-600" />
               <span>WhatsApp para contato direto</span>
             </label>
             <input
@@ -279,24 +279,24 @@ export const NewClassifiedModal: React.FC<NewClassifiedModalProps> = ({
               value={sellerWhatsApp}
               onChange={(e) => setSellerWhatsApp(e.target.value)}
               placeholder="(74) 99999-0000"
-              className="w-full bg-zinc-50 border border-zinc-200 rounded-sm px-2.5 py-1.5 text-xs text-zinc-900 focus:outline-none focus:ring-1 focus:ring-blue-600 font-mono"
+              className="w-full bg-zinc-50 border border-zinc-100 rounded-xl px-3.5 py-2.5 text-sm text-zinc-900 focus:outline-none focus:ring-1 focus:ring-blue-600 "
             />
           </div>
         </div>
 
         {/* Footer Actions */}
-        <div className="p-3 border-t border-zinc-200 bg-white flex items-center justify-between">
+        <div className="p-4 border-t border-zinc-100 bg-white flex items-center justify-between">
           <button
             type="button"
             onClick={onClose}
-            className="px-3 py-1.5 text-xs font-semibold text-zinc-600 hover:text-zinc-900 rounded-sm transition-colors"
+            className="px-3 py-2.5 text-sm font-semibold text-zinc-600 hover:text-zinc-900 rounded-xl transition-colors"
           >
             Cancelar
           </button>
           <button
             type="button"
             onClick={() => handleSubmit()}
-            className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-sm shadow-sm transition-all uppercase tracking-wider"
+            className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-all uppercase tracking-wider"
           >
             Publicar Anúncio
           </button>

@@ -52,18 +52,18 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar por morador, serviço, bairro ou assunto..."
-            className="w-full bg-transparent text-sm text-slate-800 placeholder-slate-400 focus:outline-none"
+            className="w-full bg-transparent text-[15px] text-slate-800 placeholder-slate-400 focus:outline-none"
           />
           <button
             onClick={onClose}
-            className="w-7 h-7 rounded-full bg-slate-100 text-slate-400 hover:text-slate-600 flex items-center justify-center shrink-0"
+            className="w-10 h-12 rounded-full bg-slate-100 text-slate-400 hover:text-slate-600 flex items-center justify-center shrink-0"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {!q ? (
-          <div className="py-8 text-center text-xs text-slate-400 font-medium">
+          <div className="py-8 text-center text-sm text-slate-400 font-medium">
             Digite algo para buscar em toda a comunidade de Sobradinho.
           </div>
         ) : (
@@ -71,8 +71,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             {/* People */}
             {matchingPeople.length > 0 && (
               <div className="space-y-2">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block flex items-center gap-1">
-                  <Users className="w-3.5 h-3.5" /> Moradores ({matchingPeople.length})
+                <span className="text-[13px] font-bold uppercase tracking-wider text-slate-400 block flex items-center gap-1">
+                  <Users className="w-5 h-5" /> Moradores ({matchingPeople.length})
                 </span>
                 {matchingPeople.map((person) => (
                   <div
@@ -81,13 +81,13 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                       onSelectPerson(person);
                       onClose();
                     }}
-                    className="p-2.5 rounded-2xl bg-slate-50 hover:bg-blue-50/50 cursor-pointer flex items-center justify-between transition-colors"
+                    className="p-3.5 rounded-2xl bg-slate-50 hover:bg-blue-50/50 cursor-pointer flex items-center justify-between transition-colors"
                   >
                     <div>
-                      <strong className="text-xs font-bold text-slate-900">{person.name}</strong>
-                      <span className="text-xs text-slate-500 block">@{person.handle} &bull; {person.neighborhood}</span>
+                      <strong className="text-sm font-bold text-slate-900">{person.name}</strong>
+                      <span className="text-sm text-slate-500 block">@{person.handle} &bull; {person.neighborhood}</span>
                     </div>
-                    <span className="text-xs font-bold text-blue-600">Ver &rarr;</span>
+                    <span className="text-sm font-bold text-blue-600">Ver &rarr;</span>
                   </div>
                 ))}
               </div>
@@ -96,11 +96,11 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             {/* Services */}
             {matchingServices.length > 0 && (
               <div className="space-y-2">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block flex items-center gap-1">
-                  <Wrench className="w-3.5 h-3.5" /> Serviços ({matchingServices.length})
+                <span className="text-[13px] font-bold uppercase tracking-wider text-slate-400 block flex items-center gap-1">
+                  <Wrench className="w-5 h-5" /> Serviços ({matchingServices.length})
                 </span>
                 {matchingServices.map((service) => (
-                  <div key={service.id} className="p-2.5 rounded-2xl bg-slate-50 text-xs">
+                  <div key={service.id} className="p-3.5 rounded-2xl bg-slate-50 text-sm">
                     <strong className="text-slate-900 block font-bold">{service.title}</strong>
                     <span className="text-slate-500">{service.providerName} &bull; {service.neighborhood}</span>
                   </div>
@@ -111,11 +111,11 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             {/* Posts */}
             {matchingPosts.length > 0 && (
               <div className="space-y-2">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block flex items-center gap-1">
-                  <FileText className="w-3.5 h-3.5" /> Publicações ({matchingPosts.length})
+                <span className="text-[13px] font-bold uppercase tracking-wider text-slate-400 block flex items-center gap-1">
+                  <FileText className="w-5 h-5" /> Publicações ({matchingPosts.length})
                 </span>
                 {matchingPosts.map((post) => (
-                  <div key={post.id} className="p-2.5 rounded-2xl bg-slate-50 text-xs">
+                  <div key={post.id} className="p-3.5 rounded-2xl bg-slate-50 text-sm">
                     <strong className="text-slate-900 block font-bold">{post.authorName} ({post.neighborhood})</strong>
                     <p className="text-slate-600 line-clamp-2 mt-0.5">{post.content}</p>
                   </div>
@@ -124,7 +124,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             )}
 
             {matchingPeople.length === 0 && matchingServices.length === 0 && matchingPosts.length === 0 && (
-              <div className="py-6 text-center text-xs text-slate-400">
+              <div className="py-6 text-center text-sm text-slate-400">
                 Nenhum resultado encontrado para "{query}".
               </div>
             )}

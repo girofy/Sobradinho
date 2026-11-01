@@ -1,6 +1,5 @@
-// [LAYOUT ARCHETYPE]: Edge-to-Edge Swiss Social Post Card
-// [RADIUS & BORDERS]: rounded (4px) card, rounded-sm (2px) media/buttons/avatar, border border-zinc-200
-// [ACCENT LOGIC]: #2563EB (Royal Blue) & #DC2626 (Red for likes)
+// [LAYOUT]: Edge-to-edge social post (estilo Instagram): mídia 100% da largura, sem bordas/cards.
+// [ACCENT]: #2563EB (azul) & #EF4444 (curtir)
 
 import React, { useState } from 'react';
 import { Bookmark, Heart, MessageCircle, MoreHorizontal, Send } from 'lucide-react';
@@ -14,21 +13,15 @@ interface PostCardProps {
   onShare: (post: FeedPost) => void;
 }
 
-export const PostCard: React.FC<PostCardProps> = ({
-  post,
-  onLike,
-  onSave,
-  onComment,
-  onShare,
-}) => {
+export const PostCard: React.FC<PostCardProps> = ({ post, onLike, onSave, onComment, onShare }) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [commentInput, setCommentInput] = useState('');
   const [showHeartBurst, setShowHeartBurst] = useState(false);
 
+  const commentsTotal = post.comments?.length || post.commentsCount;
+
   const handleDoubleTap = () => {
-    if (!post.isLiked) {
-      onLike(post.id);
-    }
+    if (!post.isLiked) onLike(post.id);
     setShowHeartBurst(true);
     setTimeout(() => setShowHeartBurst(false), 700);
   };
@@ -40,158 +33,133 @@ export const PostCard: React.FC<PostCardProps> = ({
   };
 
   return (
-    <article className="bg-white border border-zinc-200 rounded p-3 sm:p-3.5 space-y-2.5 shadow-sm animate-fade-in">
-      {/* Post Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-sm overflow-hidden bg-zinc-100 shrink-0 border border-zinc-200">
+    <article className="bg-white animate-fade-in">
+      {/* Cabeçalho */}
+      <div className="flex items-center justify-between px-4 py-3">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-10 h-10 rounded-full overflow-hidden bg-zinc-100 shrink-0 ring-2 ring-blue-500/80 ring-offset-2 ring-offset-white">
             {post.authorAvatar ? (
-              <img
-                src={post.authorAvatar}
-                alt={post.authorName}
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
+              <img src={post.authorAvatar} alt={post.authorName} className="w-full h-full object-cover" loading="lazy" />
             ) : (
-              <div className="w-full h-full bg-blue-600 text-white font-mono font-bold flex items-center justify-center text-xs">
+              <div className="w-full h-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm">
                 {post.authorName.charAt(0).toUpperCase()}
               </div>
             )}
           </div>
           <div className="min-w-0">
-            <h4 className="text-xs font-bold text-zinc-900 leading-tight truncate">
-              {post.authorName}
-            </h4>
-            <div className="text-[10px] text-zinc-500 flex items-center gap-1 font-mono">
-              <span className="truncate">{post.neighborhood}</span>
-              <span>•</span>
-              <span className="shrink-0">{post.timeAgo}</span>
-            </div>
+            <h4 className="text-sm font-bold text-zinc-900 leading-tight truncate">{post.authorName}</h4>
+            <p className="text-xs text-zinc-500 truncate">
+              {post.neighborhood} · {post.timeAgo}
+            </p>
           </div>
         </div>
 
         <button
           onClick={() => onShare(post)}
-          className="p-1 text-zinc-400 hover:text-zinc-700 rounded-sm hover:bg-zinc-100 transition-colors"
-          title="Compartilhar relato"
+          className="w-11 h-11 -mr-2 flex items-center justify-center rounded-full text-zinc-700 active:bg-zinc-100"
+          aria-label="Mais opções"
         >
-          <MoreHorizontal className="w-4 h-4" />
+          <MoreHorizontal className="w-6 h-6" />
         </button>
       </div>
 
-      {/* Post Media with Double-tap to Like */}
+      {/* Mídia de ponta a ponta */}
       {post.imageUrl && (
         <div
           onDoubleClick={handleDoubleTap}
-          className="relative rounded-sm overflow-hidden bg-zinc-100 max-h-[360px] w-full border border-zinc-200 cursor-pointer select-none group"
+          className="relative w-full aspect-[4/5] bg-zinc-100 select-none overflow-hidden"
         >
           <img
             src={post.imageUrl}
             alt={post.imageAlt || 'Registro fotográfico'}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.01]"
+            className="absolute inset-0 w-full h-full object-cover"
             loading="lazy"
+            draggable={false}
           />
-
           {showHeartBurst && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-heart-pop bg-black/10">
-              <Heart className="w-16 h-16 fill-white text-white drop-shadow-md" />
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none animate-heart-pop">
+              <Heart className="w-24 h-24 fill-white text-white drop-shadow-lg" />
             </div>
           )}
         </div>
       )}
 
-      {/* Action Buttons */}
-      <div className="flex items-center justify-between pt-0.5">
-        <div className="flex items-center gap-3">
+      {/* Ações: só ícones, alvos de toque grandes */}
+      <div className="flex items-center justify-between px-2 pt-1">
+        <div className="flex items-center">
           <button
             onClick={() => onLike(post.id)}
-            className="flex items-center gap-1 text-zinc-700 hover:text-red-600 active:scale-95 transition-all"
-            title="Curtir relato"
+            className="w-11 h-11 flex items-center justify-center active:scale-90 transition-transform"
+            aria-label="Curtir"
           >
-            <Heart
-              className={`w-4 h-4 transition-colors ${
-                post.isLiked ? 'fill-red-600 text-red-600' : 'text-zinc-700'
-              }`}
-            />
-            <span className="text-xs font-mono font-bold text-zinc-800">
-              {post.likesCount}
-            </span>
+            <Heart className={`w-7 h-7 ${post.isLiked ? 'fill-red-500 text-red-500' : 'text-zinc-900'}`} />
           </button>
-
           <button
             onClick={() => setIsCommentsOpen(!isCommentsOpen)}
-            className="flex items-center gap-1 text-zinc-700 hover:text-blue-600 active:scale-95 transition-all"
-            title="Ver e adicionar comentários"
+            className="w-11 h-11 flex items-center justify-center active:scale-90 transition-transform"
+            aria-label="Comentários"
           >
-            <MessageCircle className="w-4 h-4" />
-            <span className="text-xs font-mono font-bold text-zinc-800">
-              {post.comments?.length || post.commentsCount}
-            </span>
+            <MessageCircle className="w-7 h-7 text-zinc-900" />
           </button>
-
           <button
             onClick={() => onShare(post)}
-            className="text-zinc-600 hover:text-blue-600 active:scale-95 transition-all p-0.5"
-            title="Compartilhar relato"
+            className="w-11 h-11 flex items-center justify-center active:scale-90 transition-transform"
+            aria-label="Compartilhar"
           >
-            <Send className="w-4 h-4" />
+            <Send className="w-7 h-7 text-zinc-900" />
           </button>
         </div>
-
         <button
           onClick={() => onSave(post.id)}
-          className="text-zinc-500 hover:text-blue-600 active:scale-95 transition-all p-0.5"
-          title="Salvar na sua lista"
+          className="w-11 h-11 flex items-center justify-center active:scale-90 transition-transform"
+          aria-label="Salvar"
         >
-          <Bookmark
-            className={`w-4 h-4 ${
-              post.isSaved ? 'fill-blue-600 text-blue-600' : ''
-            }`}
-          />
+          <Bookmark className={`w-7 h-7 ${post.isSaved ? 'fill-zinc-900 text-zinc-900' : 'text-zinc-900'}`} />
         </button>
       </div>
 
-      {/* Post Text */}
-      <div className="text-xs text-zinc-800 leading-relaxed font-sans">
-        <strong className="font-bold mr-1 text-zinc-900">{post.authorName}:</strong>
-        <span>{post.content}</span>
-      </div>
+      {/* Curtidas, legenda, comentários */}
+      <div className="px-4 pb-4 space-y-1">
+        <p className="text-sm font-bold text-zinc-900">{post.likesCount} curtidas</p>
+        <p className="text-sm text-zinc-900 leading-relaxed">
+          <span className="font-bold mr-1.5">{post.authorName}</span>
+          {post.content}
+        </p>
+        {commentsTotal > 0 && !isCommentsOpen && (
+          <button onClick={() => setIsCommentsOpen(true)} className="text-sm text-zinc-500 pt-0.5">
+            Ver {commentsTotal === 1 ? '1 comentário' : `todos os ${commentsTotal} comentários`}
+          </button>
+        )}
 
-      {/* Comments Drawer */}
-      {isCommentsOpen && (
-        <div className="pt-2 border-t border-zinc-200 space-y-2 animate-fade-in">
-          {post.comments && post.comments.length > 0 && (
-            <div className="space-y-1 max-h-48 overflow-y-auto">
-              {post.comments.map((c) => (
-                <div key={c.id} className="text-xs text-zinc-800 bg-zinc-50 border border-zinc-200/80 p-2 rounded-sm">
-                  <div className="flex justify-between items-center text-[10px] text-zinc-500 mb-0.5 font-mono">
-                    <strong className="text-zinc-900 font-semibold">{c.author}</strong>
-                    <span>{c.timeAgo}</span>
-                  </div>
-                  <p className="text-zinc-700 font-sans leading-snug">{c.content}</p>
-                </div>
-              ))}
+        {isCommentsOpen && (
+          <div className="pt-2 space-y-3 animate-fade-in">
+            {post.comments?.map((c) => (
+              <p key={c.id} className="text-sm text-zinc-900 leading-snug">
+                <span className="font-bold mr-1.5">{c.author}</span>
+                {c.content}
+                <span className="text-xs text-zinc-400 ml-2">{c.timeAgo}</span>
+              </p>
+            ))}
+            <div className="flex items-center gap-2 pt-1">
+              <input
+                type="text"
+                value={commentInput}
+                onChange={(e) => setCommentInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSendComment()}
+                placeholder="Adicione um comentário..."
+                className="flex-1 h-11 bg-zinc-100 text-base text-zinc-900 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600"
+              />
+              <button
+                onClick={handleSendComment}
+                disabled={!commentInput.trim()}
+                className="h-11 px-2 text-sm font-bold text-blue-600 disabled:opacity-40"
+              >
+                Enviar
+              </button>
             </div>
-          )}
-
-          <div className="flex gap-1.5 pt-1">
-            <input
-              type="text"
-              value={commentInput}
-              onChange={(e) => setCommentInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSendComment()}
-              placeholder="Escreva um comentário comunitário..."
-              className="flex-1 bg-zinc-50 border border-zinc-200 text-xs text-zinc-800 px-2.5 py-1.5 rounded-sm focus:outline-none focus:ring-1 focus:ring-blue-600 font-sans"
-            />
-            <button
-              onClick={handleSendComment}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-sm text-xs font-bold transition-colors uppercase tracking-wider"
-            >
-              Enviar
-            </button>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </article>
   );
 };
