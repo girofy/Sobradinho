@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { BarChart3, CalendarDays, ChevronRight, Phone, Search, Tag, Wrench, Plus, MessageCircle, ImagePlus, Trash2 } from 'lucide-react';
+import { BarChart3, Camera, CalendarDays, ChevronRight, Phone, Search, Tag, Wrench, Plus, MessageCircle, ImagePlus, Trash2 } from 'lucide-react';
 import { useStore, timeAgo } from '../store';
 import { useNav } from '../nav';
 import { CLASSIFIED_CATEGORIES, HOODS, SERVICE_CATEGORIES, UTILITY } from '../data';
@@ -48,6 +48,10 @@ export const City: React.FC = () => {
             </span>
           </button>
         ))}
+        <button onClick={() => { haptic(); push({ s: 'city', id: 'antigamente' }); }} className="col-span-2 rounded-[24px] bg-amber-50 ring-1 ring-amber-100 p-4 text-left active:scale-[.98] transition-transform flex items-center gap-4">
+          <span className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-white flex items-center justify-center shadow-md shrink-0"><Camera className="w-6 h-6" /></span>
+          <span><span className="block text-[17px] font-extrabold">Sobradinho de antigamente</span><span className="block text-[13px] text-zinc-500">Fotos antigas mandadas pela cidade</span></span>
+        </button>
         <button onClick={() => { haptic(); push({ s: 'user', id: 'h-achados' }); }} className="rounded-[24px] bg-zinc-50 ring-1 ring-zinc-100 p-4 text-left active:scale-[.98] transition-transform">
           <span className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-700 text-white flex items-center justify-center shadow-md"><Search className="w-6 h-6" /></span>
           <span className="block mt-3 text-[17px] font-extrabold">Achados</span>
@@ -198,6 +202,42 @@ export const Utility: React.FC = () => {
         </div>
       ))}
       <p className="px-6 py-8 text-center text-[13px] text-zinc-400">Números da cidade entram aqui depois de conferidos pela equipe.</p>
+    </Screen>
+  );
+};
+
+export const ANTIGO_TAG = '#SobradinhoAntigo';
+
+/** Álbum comunitário: fotos antigas mandadas pela cidade. Nostalgia gera comentário e compartilhamento. */
+export const Antigamente: React.FC = () => {
+  const { back, push, openComposer } = useNav();
+  const { state, authorOf } = useStore();
+  const posts = state.posts.filter((p) => p.text.includes(ANTIGO_TAG) && p.photo);
+  const send = () => openComposer('foto', `Foto antiga de Sobradinho.\nAno (mais ou menos): \nOnde era: \nQuem aparece: \n\n${ANTIGO_TAG}`);
+  return (
+    <Screen title="Sobradinho de antigamente" onBack={back}
+      footer={<div className="shrink-0 p-3 border-t border-zinc-100 bg-white" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 12px)' }}>
+        <button onClick={() => { haptic('pop'); send(); }} className="w-full h-14 rounded-2xl bg-zinc-950 text-white text-[17px] font-extrabold flex items-center justify-center gap-2 active:scale-[.98]"><Camera className="w-5 h-5" /> Mandar uma foto antiga</button>
+      </div>}>
+      <div className="p-3">
+        <div className="rounded-[28px] bg-amber-50 ring-1 ring-amber-100 p-5">
+          <p className="text-[20px] font-extrabold leading-tight">A cidade lembra. Você também?</p>
+          <p className="text-[15px] text-zinc-600 mt-1.5 leading-snug">Pergunte pra sua avó, abra aquela caixa de fotos, tire foto da foto. Conta o ano e onde era: a cidade inteira ajuda a reconhecer.</p>
+        </div>
+        {posts.length === 0 ? (
+          <Empty art={<svg viewBox="0 0 160 120" aria-hidden="true"><rect x="30" y="24" width="100" height="76" rx="8" fill="#FEF3C7" stroke="#F59E0B" strokeWidth="3" /><circle cx="64" cy="54" r="10" fill="#FBBF24" /><path d="M36 92l30-26 22 18 14-12 22 20z" fill="#D97706" opacity=".7" /></svg>}
+            title="O álbum começa com você" text="Ainda não tem nenhuma foto. Seja a primeira pessoa a mostrar como era Sobradinho." />
+        ) : (
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            {posts.map((p) => (
+              <button key={p.id} onClick={() => push({ s: 'post', id: p.id })} className="relative rounded-2xl overflow-hidden bg-zinc-100 aspect-square text-left">
+                <img src={p.photo} alt="" className="w-full h-full object-cover" />
+                <span className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/70 to-transparent text-white text-[12px] font-bold truncate">{authorOf(p.authorId).name}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     </Screen>
   );
 };

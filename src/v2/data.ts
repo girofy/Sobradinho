@@ -24,6 +24,11 @@ export function seedPosts(now: number): Post[] {
       quickReplies: ['Cheguei! 🙌', 'Bora encher isso aqui', 'Sou do Centro 📍'],
     },
     {
+      ...base(), id: 's-antigo', authorId: 'h-oficial', at: now - 0.8 * H, kind: 'post',
+      text: 'Mande uma foto antiga de Sobradinho: a praça, a escola, a feira, a Sobradinho de antes da barragem encher. Conta o ano e onde era. Quem se reconhecer, comenta!\n\n#SobradinhoAntigo',
+      quickReplies: ['Tenho umas fotos! 📷', 'Lembro disso aí', 'Vou perguntar pra minha avó'],
+    },
+    {
       ...base(), id: 's-forro', authorId: 'h-agenda', at: now - 1.5 * H, kind: 'event',
       text: '22º Forró do Vaqueiro: 13, 14 e 15 de novembro. Prepara a bota! Toque em "Eu vou" e chame sua turma.',
       quickReplies: ['Eu vou! 🤠', 'Quem vai comigo?', 'Já tô ensaiando o xote'],

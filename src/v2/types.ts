@@ -120,7 +120,7 @@ export type Route =
   | { s: 'settings-section'; id: 'conta' | 'notificacoes' | 'privacidade' | 'bloqueados' | 'aparencia' | 'ajuda' | 'sobre' | 'termos' | 'politica' | 'excluir' }
   | { s: 'edit' }
   | { s: 'user'; id: string }
-  | { s: 'city'; id: 'servicos' | 'classificados' | 'agenda' | 'utilidade' | 'consulta' }
+  | { s: 'city'; id: 'servicos' | 'classificados' | 'agenda' | 'utilidade' | 'consulta' | 'antigamente' }
   | { s: 'search' }
   | { s: 'event' };
 

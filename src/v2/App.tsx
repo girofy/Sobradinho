@@ -7,7 +7,7 @@ import { Avatar, haptic } from './ui';
 import { Home } from './home/Home';
 import { PostDetail } from './home/PostDetail';
 import { Composer } from './compose/Composer';
-import { Agenda, City, Consulta, EventScreen, Listings, Utility } from './city/City';
+import { Agenda, Antigamente, City, Consulta, EventScreen, Listings, Utility } from './city/City';
 import { Notifications, People, SearchScreen, UserScreen } from './people/People';
 import { Profile, EditProfile } from './profile/Profile';
 import { Settings, SettingsSection } from './profile/Settings';
@@ -29,6 +29,7 @@ const RouteView: React.FC<{ r: Route }> = ({ r }) => {
       if (r.id === 'classificados') return <Listings kind="classificado" />;
       if (r.id === 'agenda') return <Agenda />;
       if (r.id === 'utilidade') return <Utility />;
+      if (r.id === 'antigamente') return <Antigamente />;
       return <Consulta />;
   }
 };
