@@ -1,0 +1,8 @@
+{
+  "name": " Sobradinho Online",
+  "description": "Aplicativo comunitário mobile para Sobradinho: jornal digital, edição diária, telemetria da barragem e lago, mural da comunidade e perfil cívico.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
