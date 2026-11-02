@@ -5,6 +5,7 @@ import { useNav } from '../nav';
 import { HOUSE } from '../data';
 import { Avatar, Empty, NameLine, Photo, Screen, Verified, haptic, shareWithCode } from '../ui';
 import { TopBar } from '../home/Home';
+import { inviteCard, downloadFile } from '../shareCard';
 import { PostCard } from '../home/PostCard';
 import { FOUNDER_LIMIT, VERIFIED_AT, growthCache, inviteCodeFor, inviteLink, readGrowth, readInvitees } from '../../lib/growth';
 import { HowItWorks } from '../../components/HowItWorks';
@@ -28,7 +29,13 @@ export const InviteHero: React.FC = () => {
         <span className="text-[19px] font-extrabold tracking-wider">{code}</span><Copy className="w-5 h-5 text-white/70" />
       </button>
       <div className="grid grid-cols-[1fr_auto] gap-2 mt-2">
-        <button onClick={() => { haptic('pop'); shareWithCode(me.name, `Tô no Sobradinho Online, o app da nossa cidade. Os ${FOUNDER_LIMIT} primeiros viram Fundadores.`, say); }} className="h-14 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-400 text-zinc-950 font-extrabold text-[17px] flex items-center justify-center gap-2"><Share2 className="w-5 h-5" /> Chamar no WhatsApp</button>
+        <button onClick={async () => {
+          haptic('pop');
+          let file: File | undefined;
+          try { file = await inviteCard({ name: me.name, founderNumber: g.founderNumber, verified: g.invited >= VERIFIED_AT, code }); } catch { file = undefined; }
+          const ok = await shareWithCode(me.name, `Tô no Sobradinho Online, o app da nossa cidade. Os ${FOUNDER_LIMIT} primeiros viram Fundadores.`, say, file);
+          if (!ok && file) { downloadFile(file); say('Imagem salva. Poste no seu status!'); }
+        }} className="h-14 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-400 text-zinc-950 font-extrabold text-[17px] flex items-center justify-center gap-2"><Share2 className="w-5 h-5" /> Chamar no WhatsApp</button>
         <button onClick={() => setHow(true)} className="h-14 px-4 rounded-2xl bg-white/10 font-bold">Como?</button>
       </div>
       </div>

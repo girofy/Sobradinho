@@ -5,6 +5,8 @@ import { REACTIONS } from '../types';
 import { countComments, timeAgo, totalReactions, useStore } from '../store';
 import { useNav } from '../nav';
 import { Avatar, NameLine, Photo, haptic, shareWithCode } from '../ui';
+import { postCard, downloadFile } from '../shareCard';
+import { inviteCodeFor } from '../../lib/growth';
 import { PollView } from './Poll';
 import { EventArt } from '../../components/EventPoster';
 import { Sheet } from '../../components/ui/Sheet';
@@ -118,8 +120,12 @@ export const PostCard: React.FC<{ post: Post; detail?: boolean }> = ({ post, det
   const open = (focus = false) => { if (!detail) push({ s: 'post', id: post.id, focus }); };
   const share = async () => {
     haptic();
-    const ok = await shareWithCode(me.name, `${a.name} no Sobradinho Online:\n"${post.text.slice(0, 140)}${post.text.length > 140 ? '…' : ''}"`, say);
+    let file: File | undefined;
+    try { file = await postCard({ name: a.name, handle: a.handle, text: post.text, photo: post.photo, hood: post.hood, code: inviteCodeFor(me.name) }); } catch { file = undefined; }
+    const text = `${a.name} no Sobradinho Online:\n"${post.text.slice(0, 140)}${post.text.length > 140 ? '…' : ''}"`;
+    const ok = await shareWithCode(me.name, text, say, file);
     if (ok) actions.shared(post.id);
+    else if (file) { downloadFile(file); say('Imagem salva. Poste no seu status!'); }
   };
 
   return (
