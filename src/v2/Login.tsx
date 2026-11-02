@@ -4,7 +4,6 @@ import { supabase } from '../lib/supabase';
 import { Logo, Photo, haptic } from './ui';
 import { FOUNDER_LIMIT, readGrowth } from '../lib/growth';
 
-const GOOGLE_ON = import.meta.env.VITE_GOOGLE_LOGIN === '1';
 const GoogleG: React.FC = () => (
   <svg viewBox="0 0 48 48" className="w-6 h-6" aria-hidden="true">
     <path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z" />
@@ -62,7 +61,7 @@ export const Login: React.FC = () => {
         <h1 className="text-[34px] leading-[1.05] font-extrabold tracking-tight">Sobradinho,<br />num lugar só.</h1>
         <p className="text-[16px] text-zinc-600 mt-2 leading-snug">Os {FOUNDER_LIMIT} primeiros viram Fundadores, e o número fica pra sempre no perfil.</p>
 
-        {GOOGLE_ON && inAppBrowser && (
+        {inAppBrowser && (
           <p className="mt-4 rounded-2xl bg-amber-50 ring-1 ring-amber-200 p-3 text-[14px] leading-snug text-amber-900">
             Você abriu pelo navegador de dentro de outro app. O Google costuma bloquear aqui. Toque nos três pontinhos e escolha <b>Abrir no navegador</b>, ou entre com e-mail.
           </p>
@@ -71,13 +70,10 @@ export const Login: React.FC = () => {
         <div className="mt-6 space-y-3">
           {mode === 'start' && (
             <>
-              {GOOGLE_ON && (
-                <button onClick={google} disabled={busy} className="w-full h-14 rounded-2xl bg-white ring-1 ring-zinc-300 shadow-sm text-[17px] font-extrabold flex items-center justify-center gap-3 active:scale-[.98] transition-transform disabled:opacity-60">
-                  <GoogleG /> Entrar com Google
-                </button>
-              )}
-              <button onClick={() => { haptic(); setMode('up'); }} className={GOOGLE_ON ? 'w-full h-12 rounded-2xl text-[15px] font-bold text-zinc-600 flex items-center justify-center gap-2 active:bg-zinc-50' : 'w-full h-14 rounded-2xl bg-zinc-950 text-white text-[17px] font-extrabold flex items-center justify-center gap-2 active:scale-[.98]'}><Mail className="w-5 h-5" /> {GOOGLE_ON ? 'Entrar com e-mail' : 'Criar minha conta'}</button>
-              {!GOOGLE_ON && <button onClick={() => { haptic(); setMode('in'); }} className="w-full h-12 rounded-2xl text-[15px] font-bold text-zinc-600 active:bg-zinc-50">Já tenho conta</button>}
+              <button onClick={google} disabled={busy} className="w-full h-14 rounded-2xl bg-white ring-1 ring-zinc-300 shadow-sm text-[17px] font-extrabold flex items-center justify-center gap-3 active:scale-[.98] transition-transform disabled:opacity-60">
+                <GoogleG /> Entrar com Google
+              </button>
+              <button onClick={() => { haptic(); setMode('up'); }} className="w-full h-12 rounded-2xl text-[15px] font-bold text-zinc-600 flex items-center justify-center gap-2 active:bg-zinc-50"><Mail className="w-5 h-5" /> Entrar com e-mail</button>
             </>
           )}
           {mode !== 'start' && (
