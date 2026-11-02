@@ -176,10 +176,16 @@ const raw = (id: string) => (id === 'me' ? null : id);
 export const api = {
   async react(uid: string, postId: string, emoji: Reaction | null) {
     if (!isUuid(postId)) return;
-    const r = emoji
-      ? await supabase.from('reactions').upsert({ post_id: postId, user_id: uid, emoji }, { onConflict: 'post_id,user_id' })
-      : await supabase.from('reactions').delete().eq('post_id', postId).eq('user_id', uid);
-    if (r.error) throw r.error;
+    if (!emoji) {
+      const d = await supabase.from('reactions').delete().eq('post_id', postId).eq('user_id', uid);
+      if (d.error) throw d.error;
+      return;
+    }
+    const u = await supabase.from('reactions').update({ emoji }).eq('post_id', postId).eq('user_id', uid).select('post_id');
+    if (u.error) throw u.error;
+    if (u.data && u.data.length) return;
+    const i = await supabase.from('reactions').insert({ post_id: postId, user_id: uid, emoji });
+    if (i.error && i.error.code !== '23505') throw i.error;
   },
   async comment(uid: string, postId: string, text: string, parentId?: string) {
     if (!isUuid(postId)) return;

@@ -145,7 +145,7 @@ export const EditProfile: React.FC = () => {
   const coverRef = useRef<HTMLInputElement>(null);
   const avatarRef = useRef<HTMLInputElement>(null);
   const handle = slugHandle(f.handle);
-  const taken = useMemo(() => HOUSE.some((h) => h.handle === handle), [handle]);
+  const taken = useMemo(() => handle !== slugHandle(state.me.handle) && HOUSE.some((h) => slugHandle(h.handle) === handle), [handle, state.me.handle]);
   const handleOk = handle.length >= 3 && !taken;
   const ok = f.name.trim().length >= 2 && handleOk;
   const field = 'w-full h-14 px-4 rounded-2xl bg-zinc-100 outline-none text-[16px] focus:ring-2 focus:ring-blue-600';
