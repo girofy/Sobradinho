@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowRight, Heart, Share2, Check } from 'lucide-react';
-import { slugHandle, useStore } from './store';
+import { useStore } from './store';
 import { HOODS } from './data';
 import { Photo, haptic } from './ui';
 import { FOUNDER_LIMIT, readGrowth } from '../lib/growth';
@@ -29,9 +29,9 @@ const CityArt: React.FC = () => (
 );
 
 export const Onboarding: React.FC = () => {
-  const { actions } = useStore();
+  const { actions, state } = useStore();
   const [step, setStep] = useState(0);
-  const [name, setName] = useState('');
+  const [name, setName] = useState(state.me.name === 'Morador' ? '' : state.me.name);
   const [hood, setHood] = useState('');
   const [demo, setDemo] = useState({ reacted: false, voted: '', shared: false });
   const g = readGrowth();
@@ -40,7 +40,7 @@ export const Onboarding: React.FC = () => {
   const finish = () => {
     haptic('success');
     const n = name.trim();
-    actions.updateMe({ name: n, handle: slugHandle(n.split(' ').join('.')) || 'morador', hood: hood || 'Centro' });
+    actions.updateMe({ name: n || state.me.name, hood: hood || 'Centro' });
     actions.finishOnboarding();
   };
 
@@ -81,7 +81,7 @@ export const Onboarding: React.FC = () => {
           <p className="text-[16px] text-zinc-500 mt-1">É assim que os vizinhos vão te achar.</p>
           <input autoFocus value={name} onChange={(e) => setName(e.target.value)} maxLength={40} placeholder="Seu nome"
             className="mt-6 h-16 px-5 rounded-2xl bg-zinc-100 outline-none text-[20px] font-bold focus:ring-2 focus:ring-blue-600" />
-          {name.trim().length >= 2 && <p className="text-[14px] text-zinc-500 mt-2 px-1">Seu usuário: <b className="text-zinc-900">@{slugHandle(name.trim().split(' ').join('.'))}</b> (dá pra mudar depois)</p>}
+          <p className="text-[14px] text-zinc-500 mt-2 px-1">Seu usuário: <b className="text-zinc-900">@{state.me.handle}</b> (dá pra mudar depois no perfil)</p>
           <p className="text-[13px] font-extrabold uppercase tracking-wider text-zinc-400 mt-8">Seu bairro</p>
           <div className="flex flex-wrap gap-2 mt-2">
             {HOODS.map((h) => <button key={h} onClick={() => { haptic(); setHood(h); }} className={`h-11 px-4 rounded-full text-[15px] font-bold ${hood === h ? 'bg-orange-500 text-white' : 'bg-zinc-100 text-zinc-700'}`}>{h}</button>)}

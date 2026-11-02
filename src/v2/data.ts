@@ -79,7 +79,8 @@ export const DAILY_QUESTIONS: { q: string; options: string[]; kicker: string }[]
 export const DAILY_UNLOCK_AT = 30;
 
 export function todayKey(d = new Date()): string {
-  return d.toISOString().slice(0, 10);
+  // dia no horário da Bahia (e não em UTC, que virava às 21h)
+  return d.toLocaleDateString('en-CA', { timeZone: 'America/Bahia' });
 }
 export function dailyFor(key: string) {
   const days = Math.floor(new Date(key).getTime() / 86_400_000);

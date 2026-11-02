@@ -3,10 +3,10 @@ import { Bell, Copy, Gift, Heart, MessageCircle, Search as SearchIcon, Share2, S
 import { useStore, timeAgo, useVisiblePosts } from '../store';
 import { useNav } from '../nav';
 import { HOUSE } from '../data';
-import { Avatar, Empty, NameLine, Photo, Screen, haptic, shareWithCode } from '../ui';
+import { Avatar, Empty, NameLine, Photo, Screen, Verified, haptic, shareWithCode } from '../ui';
 import { TopBar } from '../home/Home';
 import { PostCard } from '../home/PostCard';
-import { FOUNDER_LIMIT, VERIFIED_AT, inviteCodeFor, inviteLink, readGrowth, readInvitees } from '../../lib/growth';
+import { FOUNDER_LIMIT, VERIFIED_AT, growthCache, inviteCodeFor, inviteLink, readGrowth, readInvitees } from '../../lib/growth';
 import { HowItWorks } from '../../components/HowItWorks';
 import type { Notif } from '../types';
 
@@ -42,7 +42,8 @@ export const People: React.FC = () => {
   const { push } = useNav();
   const [seg, setSeg] = useState<'ranking' | 'sugestoes' | 'convidados'>('ranking');
   const g = readGrowth();
-  const invitees = useMemo(() => readInvitees(), []);
+  const invitees = readInvitees();
+  const rankRows = growthCache.ranking ?? [];
   return (
     <div>
       <TopBar title={<span className="text-[26px] font-extrabold tracking-tight">Pessoas</span>} />
@@ -55,17 +56,30 @@ export const People: React.FC = () => {
 
       {seg === 'ranking' && (
         <div className="pt-4 pb-10">
-          <p className="px-5 text-[15px] text-zinc-500 leading-snug">O ranking de convites começa agora. Quem chamar mais gente primeiro fica no topo.</p>
+          <p className="px-5 text-[15px] text-zinc-500 leading-snug">Quem chamar mais gente fica no topo. Atualiza sozinho.</p>
           <div className="mt-3">
-            <div className="flex items-center gap-3 px-4 min-h-[72px] bg-blue-50">
-              <span className="w-8 text-center text-xl font-extrabold text-amber-500">1</span>
-              <Avatar a={me} size={46} />
-              <div className="flex-1 min-w-0"><p className="text-[16px] font-extrabold truncate">{me.name} (você)</p><p className="text-[13px] text-zinc-500">{state.me.hood}</p></div>
-              <span className="text-[17px] font-extrabold text-blue-600">{g.invited}</span>
-            </div>
-            {Array.from({ length: 6 }).map((_, i) => (
+            {rankRows.map((r, i) => {
+              const mine = r.id === 'me' || r.handle === state.me.handle;
+              return (
+                <button key={r.id + i} onClick={() => push({ s: 'user', id: r.id })} className={`w-full text-left flex items-center gap-3 px-4 min-h-[68px] ${mine ? 'bg-blue-50' : 'border-b border-zinc-50'}`}>
+                  <span className={`w-8 text-center text-xl font-extrabold ${i === 0 ? 'text-amber-500' : 'text-zinc-300'}`}>{i + 1}</span>
+                  <Avatar a={{ id: r.id, name: r.name, handle: r.handle, avatar: r.avatar, color: '#2563EB' }} size={46} />
+                  <div className="flex-1 min-w-0"><p className="text-[16px] font-extrabold truncate flex items-center gap-1">{mine ? `${r.name} (você)` : r.name}{r.verified && <Verified size={15} />}</p><p className="text-[13px] text-zinc-500">{r.hood}</p></div>
+                  <span className="text-[17px] font-extrabold text-blue-600">{r.invites}</span>
+                </button>
+              );
+            })}
+            {!rankRows.some((r) => r.id === 'me' || r.handle === state.me.handle) && (
+              <div className="flex items-center gap-3 px-4 min-h-[68px] bg-blue-50">
+                <span className="w-8 text-center text-lg font-extrabold text-zinc-300">–</span>
+                <Avatar a={me} size={46} />
+                <div className="flex-1 min-w-0"><p className="text-[16px] font-extrabold truncate">{me.name} (você)</p><p className="text-[13px] text-zinc-500">Chame gente pra entrar no ranking</p></div>
+                <span className="text-[17px] font-extrabold text-blue-600">{g.invited}</span>
+              </div>
+            )}
+            {rankRows.length < 5 && Array.from({ length: 5 - rankRows.length }).map((_, i) => (
               <div key={i} className="flex items-center gap-3 px-4 min-h-[64px] border-b border-zinc-50">
-                <span className="w-8 text-center text-lg font-extrabold text-zinc-300">{i + 2}</span>
+                <span className="w-8 text-center text-lg font-extrabold text-zinc-300">{rankRows.length + i + 1}</span>
                 <span className="w-[46px] h-[46px] rounded-full border-2 border-dashed border-zinc-200" />
                 <p className="flex-1 text-[15px] font-semibold text-zinc-300">Vaga aberta</p>
               </div>

@@ -13,6 +13,9 @@ import { Profile, EditProfile } from './profile/Profile';
 import { Settings, SettingsSection } from './profile/Settings';
 import { captureReferral } from '../lib/growth';
 import { Onboarding } from './Onboarding';
+import { AuthProvider, useAuth } from './auth';
+import { Login } from './Login';
+import { Logo } from './ui';
 
 const RouteView: React.FC<{ r: Route }> = ({ r }) => {
   switch (r.s) {
@@ -104,12 +107,39 @@ const Shell: React.FC = () => {
   );
 };
 
+captureReferral(); // guarda ?c=CODIGO antes de qualquer tela
+
+const Splash: React.FC<{ error?: boolean; onRetry?: () => void }> = ({ error, onRetry }) => (
+  <div className="min-h-screen max-w-md mx-auto flex flex-col items-center justify-center gap-5 bg-white px-8 text-center">
+    <span className="w-20 h-20 rounded-[24px] overflow-hidden shadow-xl animate-pop"><Logo /></span>
+    {error ? (
+      <>
+        <p className="text-[17px] font-extrabold">Sem conexão com a cidade</p>
+        <p className="text-[15px] text-zinc-500 leading-snug">Confere sua internet e tenta de novo.</p>
+        <button onClick={onRetry} className="h-12 px-6 rounded-full bg-zinc-950 text-white font-extrabold">Tentar de novo</button>
+      </>
+    ) : <p className="text-[15px] text-zinc-400 font-semibold">Carregando Sobradinho…</p>}
+  </div>
+);
+
+const Loaded: React.FC = () => {
+  const { ready, failed, refresh } = useStore();
+  if (!ready) return <Splash />;
+  if (failed) return <Splash error onRetry={() => refresh(false)} />;
+  return <NavProvider><Shell /></NavProvider>;
+};
+
+const Gate: React.FC = () => {
+  const { session, ready } = useAuth();
+  if (!ready) return <Splash />;
+  if (!session) return <Login />;
+  return <StoreProvider key={session.user.id} userId={session.user.id}><Loaded /></StoreProvider>;
+};
+
 export default function AppV2() {
   return (
-    <StoreProvider>
-      <NavProvider>
-        <Shell />
-      </NavProvider>
-    </StoreProvider>
+    <AuthProvider>
+      <Gate />
+    </AuthProvider>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bell, Ban, ChevronRight, CircleHelp, FileText, Info, Lock, Palette, Shield, Trash2, User } from 'lucide-react';
+import { Bell, Ban, ChevronRight, CircleHelp, FileText, Info, Lock, LogOut, Palette, Shield, Trash2, User } from 'lucide-react';
 import { useStore } from '../store';
 import { useNav } from '../nav';
 import type { Prefs, Route } from '../types';
@@ -28,8 +28,8 @@ const Group: React.FC<{ title?: string; children: React.ReactNode }> = ({ title,
 );
 
 export const Settings: React.FC = () => {
-  const { me, state } = useStore();
-  const { back, push } = useNav();
+  const { me, state, actions } = useStore();
+  const { back, push, reset } = useNav();
   const go = (id: SectionId) => push({ s: 'settings-section', id });
   return (
     <Screen title="Ajustes" onBack={back}>
@@ -56,9 +56,10 @@ export const Settings: React.FC = () => {
         <Row icon={<Shield className="w-5 h-5" />} title="Política de privacidade" onClick={() => go('politica')} />
       </Group>
       <Group>
+        <Row icon={<LogOut className="w-5 h-5" />} title="Sair da conta" onClick={async () => { reset(); await actions.signOut(); }} />
         <Row icon={<Trash2 className="w-5 h-5" />} title="Excluir conta" danger onClick={() => go('excluir')} />
       </Group>
-      <p className="text-center text-[13px] text-zinc-400 py-8">Sobradinho Online · versão beta 0.2</p>
+      <p className="text-center text-[13px] text-zinc-400 py-8">Sobradinho Online · versão beta 0.3</p>
     </Screen>
   );
 };
@@ -150,13 +151,9 @@ export const SettingsSection: React.FC<{ id: SectionId }> = ({ id }) => {
       <p className="text-[14px] text-zinc-500 mt-3">Não dá pra desfazer. O número de Fundador não volta.</p>
       <label className="block text-[14px] font-bold mt-6">Digite EXCLUIR para confirmar</label>
       <input value={confirm} onChange={(e) => setConfirm(e.target.value.toUpperCase())} className="w-full h-14 px-4 mt-2 rounded-2xl bg-zinc-100 outline-none text-[16px] font-bold tracking-widest focus:ring-2 focus:ring-red-500" />
-      <button disabled={confirm !== 'EXCLUIR'} onClick={() => {
+      <button disabled={confirm !== 'EXCLUIR'} onClick={async () => {
         haptic('success');
-        try { Object.keys(localStorage).filter((k) => k.startsWith('sobradinho_') || k.startsWith('so_v2')).forEach((k) => localStorage.removeItem(k)); } catch {}
-        actions.resetAll();
-        reset();
-        setTab('inicio');
-        say('Conta excluída');
+        if (await actions.deleteAccount()) { reset(); setTab('inicio'); }
       }} className="w-full h-14 mt-4 rounded-2xl bg-red-600 text-white font-extrabold disabled:bg-zinc-200 disabled:text-zinc-400">Excluir minha conta</button>
     </div>
   );

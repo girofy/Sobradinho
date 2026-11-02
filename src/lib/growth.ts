@@ -16,6 +16,7 @@ export const REWARD_TIERS = [
 const K_INVITEES = 'sobradinho_invitees_v1';
 export interface Invitee { name: string; at: number }
 export function readInvitees(): Invitee[] {
+  if (growthCache.invitees) return growthCache.invitees;
   try { return JSON.parse(localStorage.getItem(K_INVITEES) || '[]'); } catch { return []; }
 }
 
@@ -23,11 +24,16 @@ export function readInvitees(): Invitee[] {
 // Trocar por query ordenada por invitedCount no Firebase.
 export const INVITE_RANKING_SEED = [14, 11, 9, 7, 5, 4, 3, 2];
 
+// Dados reais do banco (a store preenche isto ao carregar). Enquanto vazio, cai no modo local antigo.
+export interface RankRow { id: string; name: string; handle: string; hood: string; avatar?: string; verified: boolean; invites: number }
+export const growthCache: { code?: string; founder?: number | null; invited?: number; invitees?: Invitee[]; ranking?: RankRow[] } = {};
+
 const K_INVITES = 'sobradinho_invites_v1';
 const K_FOUNDER = 'sobradinho_founder_no_v1';
 const K_REFERRED = 'sobradinho_referred_by_v1';
 
 export function inviteCodeFor(name: string): string {
+  if (growthCache.code) return growthCache.code;
   const clean = name
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
@@ -39,7 +45,7 @@ export function inviteCodeFor(name: string): string {
 }
 
 export function inviteLink(code: string): string {
-  return `${window.location.origin}/?c=${encodeURIComponent(code)}`;
+  return `${window.location.origin}${import.meta.env.BASE_URL}?c=${encodeURIComponent(code)}`;
 }
 
 export interface GrowthStats {
@@ -49,6 +55,7 @@ export interface GrowthStats {
 }
 
 export function readGrowth(): GrowthStats {
+  if (growthCache.code) return { invited: growthCache.invited ?? 0, founderNumber: growthCache.founder ?? null, referredBy: localStorage.getItem(K_REFERRED) };
   const n = (k: string) => {
     const v = Number(localStorage.getItem(k));
     return Number.isFinite(v) && v > 0 ? v : null;

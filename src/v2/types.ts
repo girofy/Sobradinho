@@ -28,6 +28,7 @@ export interface PollData {
   options: { id: string; text: string; votes: number }[];
   myVote?: string;
   unlockAt: number; // resultado da cidade aparece com X votos
+  total?: number;
 }
 
 export interface Post {
@@ -69,6 +70,9 @@ export interface Me {
   whatsapp: string;
   link: string;
   joinedAt: number;
+  verified?: boolean;
+  founderNumber?: number | null;
+  inviteCode?: string;
 }
 
 export interface Listing {
@@ -109,6 +113,7 @@ export interface State {
   muted: string[];
   reports: { postId: string; reason: string; at: number }[];
   daily: Record<string, string>; // data -> opção votada
+  people: Record<string, Author>; // moradores vistos (id do banco -> dados públicos)
   prefs: Prefs;
   onboarded: boolean;
 }
