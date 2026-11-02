@@ -10,7 +10,7 @@ npm run dev
 
 ## Publicar (grátis, GitHub Pages)
 1. No GitHub: **Settings > Pages > Source: GitHub Actions**.
-2. Todo `git push` na `main` publica sozinho em `https://girofy.github.io/sobradinho/`.
+2. Todo `git push` na `main` publica sozinho em `https://girofy.github.io/Sobradinho/`.
 3. Com domínio próprio (`sobradinho.online`): Settings > Pages > Custom domain, e em Settings > Secrets and variables > Actions > Variables crie `BASE_PATH` com o valor `/`.
 
 ## Login com Google (uma vez)

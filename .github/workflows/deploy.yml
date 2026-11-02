@@ -23,7 +23,7 @@ jobs:
       - run: npm run build
         env:
           # Com domínio próprio (sobradinho.online) troque por "/"
-          BASE_PATH: ${{ vars.BASE_PATH || '/sobradinho/' }}
+          BASE_PATH: ${{ vars.BASE_PATH || '/Sobradinho/' }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
